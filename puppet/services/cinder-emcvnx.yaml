@@ -1,0 +1,108 @@
+heat_template_version: ocata
+
+description: >
+  Configure Cinder EMCVNXDriver
+
+parameters:
+  # Config specific parameters, to be provided via parameter_defaults
+  CinderEmcVnxBackendName:
+    type: string
+    default: 'tripleo_emcvnx'
+  CinderEmcVnxSanLogin:
+    type: string
+  CinderEmcVnxSanPassword:
+    type: string
+    hidden: true
+  CinderEmcVnxVolumeDriver:
+    type: string
+    default: cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver
+  CinderEmcVnxStorageProtocol:
+    type: string
+    description: Whether to use iSCSI ('iscsi') fibre channel ('fc') protocol
+  CinderEmcVnxSanIp:
+    type: string
+  CinderEmcVnxAuthenticationType:
+    type: string
+  CinderEmcVnxSecurityFileDir:
+    type: string
+  CinderEmcVnxNaviseccliPath:
+    type: string
+    default: /opt/Navisphere/bin/naviseccli
+  CinderEmcVnxStoragePoolNames:
+    type: string
+    description: Comma separated list of storage pool names
+  CinderEmcVnxIscsiInitiators:
+    type: string
+    description: Mapping between hostnames and their iSCSI initiator IPs
+  CinderEmcVnxIoPortList:
+    type: string
+    description: Comma separated list of iSCSI or FC ports to use
+  CinderEmcVnxDefaultTimeout:
+    type: number
+    default: 180
+  CinderEmcVnxMaxLunsPerStorageGroup:
+    type: number
+    default: 255
+  CinderEmcVnxDestroyEmptyStorageGroup:
+    type: boolean
+    default: false
+  CinderEmcVnxInitiatorAutoRegistration:
+    type: boolean
+    default: false
+  CinderEmcVnxInitiatorAutoDeregistration:
+    type: boolean
+    default: false
+  CinderEmcVnxCheckMaxPoolLunsThreshold:
+    type: boolean
+    default: false
+  CinderEmcVnxForceDeleteLunInStorageGroup:
+    type: boolean
+    default: false
+  CinderEmcVnxIgnorePoolFullThreshold:
+    type: boolean
+    default: false
+
+  ServiceNetMap:
+    default: {}
+    description: Mapping of service_name -> network name. Typically set
+                 via parameter_defaults in the resource registry.  This
+                 mapping overrides those in ServiceNetMapDefaults.
+    type: json
+  DefaultPasswords:
+    default: {}
+    type: json
+  EndpointMap:
+    default: {}
+    type: json
+    description: Mapping of service endpoint -> protocol. Typically set
+                 via parameter_defaults in the resource registry.
+
+outputs:
+  role_data:
+    description: Role data for Cinder EMCVNXDriver
+    value:
+      service_name: cinder_emcvnx
+      config_settings:
+        tripleo::profile::base::cinder::volume::cinder_enable_emcvnx_backend: true
+        cinder::backend::emcvnx::volume_backend_name: {get_param: CinderEmcVnxBackendName}
+        cinder::backend::emcvnx::emcvnx_san_login: {get_param: CinderEmcVnxSanLogin}
+        cinder::backend::emcvnx::emcvnx_san_password: {get_param: CinderEmcVnxSanPassword}
+        cinder::backend::emcvnx::emcvnx_volume_driver: {get_param: CinderEmcVnxVolumeDriver}
+        cinder::backend::emcvnx::emcvnx_storage_protocol: {get_param: CinderEmcVnxStorageProtocol}
+        cinder::backend::emcvnx::emcvnx_san_ip: {get_param: CinderEmcVnxSanIp}
+        cinder::backend::emcvnx::emcvnx_authentication_type: {get_param: CinderEmcVnxAuthenticationType}
+        cinder::backend::emcvnx::emcvnx_security_file_dir: {get_param: CinderEmcVnxSecurityFileDir}
+        cinder::backend::emcvnx::emcvnx_naviseccli_path: {get_param: CinderEmcVnxNaviseccliPath}
+        cinder::backend::emcvnx::emcvnx_storage_pool_names: {get_param: CinderEmcVnxStoragePoolNames}
+        cinder::backend::emcvnx::emcvnx_iscsi_initiators: {get_param: CinderEmcVnxIscsiInitiators}
+        cinder::backend::emcvnx::emcvnx_io_port_list: {get_param: CinderEmcVnxIoPortList}
+        cinder::backend::emcvnx::emcvnx_default_timeout: {get_param: CinderEmcVnxDefaultTimeout}
+        cinder::backend::emcvnx::emcvnx_max_luns_per_storage_group: {get_param: CinderEmcVnxMaxLunsPerStorageGroup}
+        cinder::backend::emcvnx::emcvnx_destroy_empty_storage_group: {get_param: CinderEmcVnxDestroyEmptyStorageGroup}
+        cinder::backend::emcvnx::emcvnx_initiator_auto_registration: {get_param: CinderEmcVnxInitiatorAutoRegistration}
+        cinder::backend::emcvnx::emcvnx_initiator_auto_deregistration: {get_param: CinderEmcVnxInitiatorAutoDeregistration}
+        cinder::backend::emcvnx::emcvnx_check_max_pool_luns_threshold: {get_param: CinderEmcVnxCheckMaxPoolLunsThreshold}
+        cinder::backend::emcvnx::emcvnx_force_delete_lun_in_storagegroup: {get_param: CinderEmcVnxForceDeleteLunInStorageGroup}
+        cinder::backend::emcvnx::emcvnx_ignore_pool_full_threshold: {get_param: CinderEmcVnxIgnorePoolFullThreshold}
+      step_config: |
+        include ::tripleo::profile::base::cinder::volume

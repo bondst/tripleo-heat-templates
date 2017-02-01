@@ -113,6 +113,7 @@
     - OS::TripleO::Services::CinderHPELeftHandISCSI
     - OS::TripleO::Services::Etcd
     - OS::TripleO::Services::AuditD
+    - OS::TripleO::Services::CinderEmcVnx
 
 - name: Compute
   CountDefault: 1

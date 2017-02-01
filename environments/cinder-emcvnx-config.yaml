@@ -1,0 +1,26 @@
+# A Heat environment file which can be used to enable a
+# a Cinder Dell/EMC VNX backend, configured via puppet
+resource_registry:
+  OS::TripleO::Services::CinderEmcVnx: ../puppet/services/cinder-emcvnx.yaml
+
+parameter_defaults:
+  CinderEmcVnxBackendName: 'tripleo_vnx'
+  CinderEmcVnxSanLogin: ''
+  CinderEmcVnxSanPassword: ''
+  CinderEmcVnxVolumeDriver: cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver
+  CinderEmcVnxStorageProtocol: iscsi
+  CinderEmcVnxSanIp: ''
+  CinderEmcVnxAuthenticationType: 'global'
+  CinderEmcVnxSecurityFileDir: ''
+  CinderEmcVnxNaviseccliPath: /opt/Navisphere/bin/naviseccli
+  CinderEmcVnxStoragePoolNames: ''
+  CinderEmcVnxDefaultTimeout: 180
+  CinderEmcVnxMaxLunsPerStorageGroup: 255
+  CinderEmcVnxDestroyEmptyStorageGroup: false
+  CinderEmcVnxIscsiInitiators: ''
+  CinderEmcVnxIoPortList: ''
+  CinderEmcVnxInitiatorAutoRegistration: true
+  CinderEmcVnxInitiatorAutoDeregistration: false
+  CinderEmcVnxCheckMaxPoolLunsThreshold: true
+  CinderEmcVnxForceDeleteLunInStorageGroup: false
+  CinderEmcVnxIgnorePoolFullThreshold: false
